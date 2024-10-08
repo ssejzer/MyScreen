@@ -64,7 +64,10 @@ python myscreen.py 2
 
 ## TODO
 
+- [ ] use the first monitor by default if not specified
 - [ ] don't refresh the size if not needed
+- [ ] be able to switch screen on-the-fly
+- [ ] option to show only one app or a fraction of the screen
 
 ## License
 
