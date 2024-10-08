@@ -14,6 +14,7 @@ def update_screen(monitor_id):
         screen_label.y = screen_capture.height
         root.minsize(screen_label.x, screen_label.y)
         root.maxsize(screen_label.x, screen_label.y)
+        root.geometry( str(screen_label.x) + "x" + str(screen_label.y) + "+0+" + str(screen_label.y))
 
     # Convert the screen capture to a PIL Image
     img = Image.frombytes("RGB", (screen_capture.width, screen_capture.height), screen_capture.rgb)
@@ -35,6 +36,12 @@ if __name__ == "__main__":
         monitor_id = 0
     else:
         print("Usage: python myscreen.py <monitorID>")
+        print("")
+        print("monitorID: 0 all screens")
+        print("           1 first screen")
+        print("           2 second screen")
+        print("           n Nth screen")
+        print("")
         sys.exit(1)
 
     # Create the main window
@@ -42,7 +49,7 @@ if __name__ == "__main__":
     root.title(f"MyScreen")
 
     # Make the window full-screen
-    root.state('iconic')  # Start the window minimized
+    #root.state('iconic')  # Start the window minimized
 
     # Create a label to hold the screen capture
     screen_label = tk.Label(root)
