@@ -62,6 +62,10 @@ To capture and display the second monitor, run:
 python myscreen.py 2
 ```
 
+## TODO
+
+- [ ] don't refresh the size if not needed
+
 ## License
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE. See the [LICENSE](LICENSE) file for details.
