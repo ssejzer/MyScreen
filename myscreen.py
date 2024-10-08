@@ -8,6 +8,13 @@ def update_screen(monitor_id):
         # Capture the screen of the specific monitor
         screen_capture = sct.grab(sct.monitors[monitor_id])
 
+    # Keep the original size, if changed
+    if not hasattr(screen_label, 'x') or hasattr(screen_label, 'y') or (screen_label.x != screen_capture.width) or (screen_label.y != screen_capture.height):
+        screen_label.x = screen_capture.width
+        screen_label.y = screen_capture.height
+        root.minsize(screen_label.x, screen_label.y)
+        root.maxsize(screen_label.x, screen_label.y)
+
     # Convert the screen capture to a PIL Image
     img = Image.frombytes("RGB", (screen_capture.width, screen_capture.height), screen_capture.rgb)
 
@@ -17,17 +24,18 @@ def update_screen(monitor_id):
     # Update the label to display the captured image
     screen_label.config(image=screen_label.image)
 
-    # Keep the original size
-    root.minsize(screen_capture.width, screen_capture.height)
     # Repeat this function
     root.after(250, lambda: update_screen(monitor_id))
 
+
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) == 2:
+        monitor_id = int(sys.argv[1])
+    elif len(sys.argv) < 2:
+        monitor_id = 0
+    else:
         print("Usage: python myscreen.py <monitorID>")
         sys.exit(1)
-
-    monitor_id = int(sys.argv[1])
 
     # Create the main window
     root = tk.Tk()
