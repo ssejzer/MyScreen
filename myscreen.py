@@ -6,21 +6,21 @@ import sys
 def update_screen(monitor_id):
     with mss.mss() as sct:
         # Capture the screen of the specific monitor
-        monitor = sct.monitors[monitor_id]  # Get the specific monitor based on monitor_id
-        screen_capture = sct.grab(monitor)
+        screen_capture = sct.grab(sct.monitors[monitor_id])
 
-        # Convert the screen capture to a PIL Image
-        img = Image.frombytes("RGB", (screen_capture.width, screen_capture.height), screen_capture.rgb)
+    # Convert the screen capture to a PIL Image
+    img = Image.frombytes("RGB", (screen_capture.width, screen_capture.height), screen_capture.rgb)
 
-        # Convert the image to a format Tkinter can display
-        screen_image = ImageTk.PhotoImage(img)
+    # Convert the image to a format Tkinter can display, and keep a reference to avoid garbage collection
+    screen_label.image = ImageTk.PhotoImage(img)
 
-        # Update the label to display the captured image
-        screen_label.config(image=screen_image)
-        screen_label.image = screen_image  # Keep a reference to avoid garbage collection
+    # Update the label to display the captured image
+    screen_label.config(image=screen_label.image)
 
-        # Repeat this function after a short delay (e.g., 200 milliseconds)
-        root.after(200, lambda: update_screen(monitor_id))
+    # Keep the original size
+    root.minsize(screen_capture.width, screen_capture.height)
+    # Repeat this function
+    root.after(250, lambda: update_screen(monitor_id))
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -34,7 +34,6 @@ if __name__ == "__main__":
     root.title(f"MyScreen")
 
     # Make the window full-screen
-    #root.attributes('-fullscreen', True)
     root.state('iconic')  # Start the window minimized
 
     # Create a label to hold the screen capture
